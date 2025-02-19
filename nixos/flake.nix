@@ -3,8 +3,7 @@
 
   inputs = {
     # Nix packages
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
 
     # Disko
     disko.url = "github:nix-community/disko";
@@ -17,14 +16,14 @@
     sops-nix.url = "github:Mic92/sops-nix";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, flake-utils, disko, agenix, sops-nix }@inputs: let
+  outputs = { self, nixpkgs, flake-utils, disko, agenix, sops-nix }@inputs: let
     nodes = [
       "homelab-0"
     ];
   in {
     packages = {
-        helm = pkgs.helm;
-        helmfile = pkgs.helmfile;
+        helm = nixpkgs.helm;
+        helmfile = nixpkgs.helmfile;
     };
     nixosConfigurations = builtins.listToAttrs (map (name: {
 	    name = name;
@@ -45,8 +44,8 @@
         };
     }) nodes);
 
-    devShells.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
+    devShells.default = nixpkgs.mkShell {
+        buildInputs = with nixpkgs; [
             helm
             helmfile
             age

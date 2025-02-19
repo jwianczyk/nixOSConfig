@@ -10,7 +10,7 @@
     ];
 
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -84,21 +84,22 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     neovim
+     wget
+#     neovim
      k3s
      cifs-utils
      nfs-utils
      git
      neofetch
      docker
-     (wrapHelm kubernetes-helm) {
-        plugins = with pkgs.kubernetes-helmPlugins; [
-            helm-secrets
-            helm-diff
-            helm-s3
-            helm-git
-        ];
-     }
+#     (wrapHelm kubernetes-helm) {
+#        plugins = with pkgs.kubernetes-helmPlugins; [
+#            helm-secrets
+#            helm-diff
+#            helm-s3
+#            helm-git
+#        ];
+#     }
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
